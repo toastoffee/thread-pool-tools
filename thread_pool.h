@@ -25,7 +25,8 @@ public:
     std::vector<std::thread> _workers;
     SafeQueue<std::function<void()>> _tasks;
     std::condition_variable _cond;
-    bool _shutDown;
+    std::mutex _mtx;
+    bool _shutdown;
 
 
 public:
@@ -38,6 +39,8 @@ public:
 
     template<typename F,typename... Args>
     auto AddTask(F &&f,Args &&...args) -> std::future<decltype(f(args...))>;
+
+    void Shutdown();
 
     static void WorkThread(ThreadPool *pool);
 
