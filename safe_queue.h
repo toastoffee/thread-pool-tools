@@ -29,7 +29,7 @@ public:
     bool Empty();
     int Size();
 
-    void Enqueue(T &t);
+    void Enqueue(T t);
     bool Dequeue(T &t);
 
 };
@@ -49,10 +49,10 @@ int SafeQueue<T>::Size() {
 }
 
 template<typename T>
-void SafeQueue<T>::Enqueue(T &t) {
+void SafeQueue<T>::Enqueue(T t) {
     std::unique_lock<std::mutex> lck(_mtx);
 
-    _queue.emplace(&t);
+    _queue.emplace(t);
 }
 
 template<typename T>

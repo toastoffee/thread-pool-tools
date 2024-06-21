@@ -1,17 +1,36 @@
 #include <iostream>
 #include <future>
 
+#include "thread_pool.h"
+
+int multiply(int i){
+    std::cout << "hello " << i << std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    std::cout << "world " << i << std::endl;
+    return i*i;
+}
+
 
 int main ()
 {
 
-    std::future<int>  result = std::async([](){
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
-        return 8;
-    });
+    ThreadPool pool(4);
+    std::vector< std::future<int> > results;
 
-    std::cout << "the future result : " << result.get() << std::endl;
-    std::cout << "the future status : " << result.valid() << std::endl;
+    for(int i = 0; i < 8; ++i) {
+        results.emplace_back(
+            pool.AddTask([i] {
+                std::cout << "hello " << i << std::endl;
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+                std::cout << "world " << i << std::endl;
+                return i*i;
+            })
+        );
+    }
+
+    for(auto && result: results)
+        std::cout << result.get() << ' ';
+    std::cout << std::endl;
 
     return 0;
 }
