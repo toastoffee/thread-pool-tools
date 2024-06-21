@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file           : safe_queue.cpp
+  * @file           : thread_pool.cpp
   * @author         : toastoffee
   * @brief          : None
   * @attention      : None
@@ -10,4 +10,8 @@
 
 
 
-#include "safe_queue.h"
+#include "thread_pool.h"
+
+ThreadPool::ThreadPool() {
+
+}
