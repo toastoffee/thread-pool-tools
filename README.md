@@ -13,8 +13,8 @@ ThreadPool pool(threadNum);
 
 // 3. assign the task
 std::future<int> res = pool.AddTask([]{ 
-	int i = 2;
-  return i * i;
+    int i = 2;
+    return i * i;
 })
   
 // 4. get the result by std::future
@@ -30,7 +30,7 @@ int ans = res.get();
 for(int i = 0; i < 10; ++i) {
     results.emplace_back(
         pool.AddTask([i]{
-          return i*i;
+            return i*i;
         })
     );
 }
