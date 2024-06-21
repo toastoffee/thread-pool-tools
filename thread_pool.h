@@ -31,6 +31,7 @@ public:
 
 public:
     explicit ThreadPool(int threads);
+    ~ThreadPool();
 
     ThreadPool(const ThreadPool &) = delete;
     ThreadPool &operator=(const ThreadPool &) = delete;
@@ -39,8 +40,6 @@ public:
 
     template<typename F,typename... Args>
     auto AddTask(F &&f,Args &&...args) -> std::future<decltype(f(args...))>;
-
-    void Shutdown();
 
     static void WorkThread(ThreadPool *pool);
 

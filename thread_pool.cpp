@@ -19,6 +19,15 @@ ThreadPool::ThreadPool(const int threads) : _shutdown(false) {
     }
 }
 
+ThreadPool::~ThreadPool() {
+    _shutdown = true;
+    _cond.notify_all();
+
+    for(auto &worker : _workers){
+        worker.join();
+    }
+}
+
 void ThreadPool::WorkThread(ThreadPool *pool) {
     while(true){
         std::function<void()> task;
@@ -42,10 +51,6 @@ void ThreadPool::WorkThread(ThreadPool *pool) {
     }
 }
 
-void ThreadPool::Shutdown() {
-
-}
-
 template<typename F, typename... Args>
 auto ThreadPool::AddTask(F &&f, Args &&... args) -> std::future<decltype(f(args...))> {
 
@@ -56,6 +61,9 @@ auto ThreadPool::AddTask(F &&f, Args &&... args) -> std::future<decltype(f(args.
     std::function<void()> wrappedTask = [taskPtr](){
         (*taskPtr)();
     };
+
+    if(_shutdown)
+        throw std::runtime_error("enqueue on a shutdown threadPool");
 
     _tasks.Enqueue(wrappedTask);
 
