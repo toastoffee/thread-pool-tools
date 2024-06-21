@@ -16,6 +16,7 @@
 #include "safe_queue.h"
 
 #include <functional>
+#include <future>
 
 class ThreadPool {
 private:
@@ -30,7 +31,9 @@ public:
     ThreadPool(ThreadPool &&) = delete;
     ThreadPool &&operator=(ThreadPool &&) = delete;
 
-    
+    template<typename F,typename... Args>
+    auto AddTask(F &&f,Args &&...args) -> std::future<decltype(f(args...))>;
+
 };
 
 
