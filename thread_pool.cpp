@@ -12,8 +12,18 @@
 
 #include "thread_pool.h"
 
-ThreadPool::ThreadPool() {
 
+ThreadPool::ThreadPool(const int threads) : _shutDown(false) {
+    for(int i = 0; i < threads; ++i){
+        _workers.emplace_back(WorkThread, this);
+    }
+}
+
+void ThreadPool::WorkThread(ThreadPool *pool) {
+    while(true){
+        std::function<void()> task;
+
+    }
 }
 
 template<typename F, typename... Args>

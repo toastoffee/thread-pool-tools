@@ -17,14 +17,19 @@
 
 #include <functional>
 #include <future>
+#include <thread>
 
 class ThreadPool {
-private:
+public:
 
+    std::vector<std::thread> _workers;
     SafeQueue<std::function<void()>> _tasks;
+    std::condition_variable _cond;
+    bool _shutDown;
+
 
 public:
-    ThreadPool();
+    explicit ThreadPool(int threads);
 
     ThreadPool(const ThreadPool &) = delete;
     ThreadPool &operator=(const ThreadPool &) = delete;
@@ -33,6 +38,8 @@ public:
 
     template<typename F,typename... Args>
     auto AddTask(F &&f,Args &&...args) -> std::future<decltype(f(args...))>;
+
+    static void WorkThread(ThreadPool *pool);
 
 };
 
