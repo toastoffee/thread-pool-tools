@@ -30,7 +30,6 @@ public:
     std::mutex _mtx;
     bool _shutdown;
 
-
 public:
     explicit ThreadPool(int threads);
     ~ThreadPool();
