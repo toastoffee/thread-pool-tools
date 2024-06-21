@@ -5,5 +5,5 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_executable(thread_pool_tools
         main.cpp
-        thread_pool.h
+        one_file/thread_pool.hpp
 )

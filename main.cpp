@@ -1,7 +1,7 @@
 #include <iostream>
 #include <future>
 
-#include "thread_pool.h"
+#include "one_file/thread_pool.hpp"
 
 int square(int i){
     return i*i;
