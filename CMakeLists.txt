@@ -3,4 +3,6 @@ project(thread_pool_tools)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(thread_pool_tools main.cpp)
+add_executable(thread_pool_tools main.cpp
+        safe_queue.cpp
+        safe_queue.h)
