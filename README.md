@@ -1,4 +1,4 @@
-# thread_pool_tools
+# thread-pool-tools
 a c++11 implementation of thread pool
 
 ### easy-usage
